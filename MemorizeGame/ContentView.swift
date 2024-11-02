@@ -35,14 +35,17 @@ struct ContentView: View {
                 vm.initGame()
             }
             Spacer()
-            Text("Score: \(vm.score)").font(.title).scaleEffect(scoreScale).onChange(of: vm.score) { _ in
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    scoreScale = 1.5
+            Text("Score: \(vm.score)")
+                .font(.title)
+                .scaleEffect(scoreScale)
+                .onChange(of: vm.score) { _ in
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        scoreScale = 1.5
+                    }
+                    withAnimation(.easeInOut(duration: 0.2).delay(0.2)) {
+                        scoreScale = 1.0
+                    }
                 }
-                withAnimation(.easeInOut(duration: 0.2).delay(0.2)) {
-                    scoreScale = 1.0
-                }
-            }
             Spacer()
             Button("Shuffle") {
                 withAnimation(.easeInOut(duration: 1)) {
@@ -68,7 +71,7 @@ struct CardView: View {
         .aspectRatio(1 / 1, contentMode: .fill)
         .transition(.opacity.animation(.easeInOut(duration: 0.5)))
         .opacity(card.isMatched ? 0 : 1)
-        .padding(EdgeInsets.init(top: 5, leading: 0, bottom: 5, trailing: 0))
+        .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .onTapGesture {
             onClick()
         }

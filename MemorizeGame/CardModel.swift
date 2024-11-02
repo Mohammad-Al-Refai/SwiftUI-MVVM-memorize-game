@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CardModel: Identifiable,Hashable {
+struct CardModel: Identifiable, Hashable {
     var id = UUID()
     var content: String
     var isFaceUp = false

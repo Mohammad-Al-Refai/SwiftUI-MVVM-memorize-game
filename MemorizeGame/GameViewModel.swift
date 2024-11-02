@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-let All_EMOJIES = ["😁", "😁", "🤕", "🤕", "😵‍💫", "😵‍💫", "😎", "😎", "🥶", "🥶", "😍", "😍", "🎃", "🎃", "🤡", "🤡"]
+let ALL_EMOJIS = ["😁", "😁", "🤕", "🤕", "😵‍💫", "😵‍💫", "😎", "😎", "🥶", "🥶", "😍", "😍", "🎃", "🎃", "🤡", "🤡"]
 
 class GameViewModel: ObservableObject {
     let MATCH_SCORE_POINTS = 50
@@ -24,8 +24,8 @@ class GameViewModel: ObservableObject {
         cards.removeAll()
         cardSelection.clear()
         score = 0
-        for emojy in All_EMOJIES {
-            cards.append(CardModel(content: emojy))
+        for emoji in ALL_EMOJIS {
+            cards.append(CardModel(content: emoji))
         }
         shuffle()
     }
@@ -41,7 +41,7 @@ class GameViewModel: ObservableObject {
         if cardIndex == nil {
             return
         }
-        if cards[cardIndex!].isFaceUp{
+        if cards[cardIndex!].isFaceUp {
             return
         }
         cards[cardIndex!].toggle()
