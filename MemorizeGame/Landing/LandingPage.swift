@@ -19,8 +19,8 @@ struct LandingPage: View {
                     appViewModel.navigateToPlay(_gameType: .Emoji)
                 }
 
-                AnimatedButton(text: "Latters") {
-                    appViewModel.navigateToPlay(_gameType: .Latters)
+                AnimatedButton(text: "Characters") {
+                    appViewModel.navigateToPlay(_gameType: .Characters)
                 }
 
                 AnimatedButton(text: "Numbers") {

@@ -9,6 +9,6 @@ import Foundation
 
 enum GameType {
     case Emoji
-    case Latters
+    case Characters
     case Numbers
 }

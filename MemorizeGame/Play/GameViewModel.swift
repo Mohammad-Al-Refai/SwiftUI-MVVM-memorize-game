@@ -61,7 +61,7 @@ final class GameViewModel: ObservableObject {
             increaseScore()
         } else {
             canSelect = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.cards[self.cardSelection.firstCardIndex].toggle()
                 self.cards[self.cardSelection.secondCardIndex].toggle()
                 self.cardSelection.clear()
@@ -80,8 +80,8 @@ final class GameViewModel: ObservableObject {
             for emoji in EMOJIS {
                 cards.append(CardModel(content: emoji))
             }
-        case .Latters:
-            for latter in LATTERS {
+        case .Characters:
+            for latter in CHARACTERS {
                 cards.append(CardModel(content: latter))
             }
         case .Numbers:
