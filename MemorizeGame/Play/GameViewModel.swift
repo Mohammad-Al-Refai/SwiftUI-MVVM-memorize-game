@@ -8,26 +8,27 @@
 import Foundation
 import SwiftUI
 
-let ALL_EMOJIS = ["😁", "😁", "🤕", "🤕", "😵‍💫", "😵‍💫", "😎", "😎", "🥶", "🥶", "😍", "😍", "🎃", "🎃", "🤡", "🤡"]
 
-class GameViewModel: ObservableObject {
-    let MATCH_SCORE_POINTS = 50
+
+final class GameViewModel: ObservableObject {
+    var gameType: GameType
     @Published var score = 0
     @Published var cards: [CardModel] = []
-    var cardSelection = CardSelection()
+    private var canSelect = false
+    private var cardSelection = CardSelection()
 
-    init() {
+    init(_gameType: GameType) {
+        gameType = _gameType
         initGame()
     }
 
     func initGame() {
         cards.removeAll()
         cardSelection.clear()
+        initCards()
         score = 0
-        for emoji in ALL_EMOJIS {
-            cards.append(CardModel(content: emoji))
-        }
         shuffle()
+        revealCardsFor(deadline: .now() + 3)
     }
 
     private func checkCardsMatch() -> Bool {
@@ -37,6 +38,9 @@ class GameViewModel: ObservableObject {
     }
 
     func select(card: CardModel) {
+        if !canSelect {
+            return
+        }
         let cardIndex = cards.firstIndex(of: card)
         if cardIndex == nil {
             return
@@ -56,9 +60,13 @@ class GameViewModel: ObservableObject {
             cardSelection.clear()
             increaseScore()
         } else {
-            cards[cardSelection.firstCardIndex].toggle()
-            cards[cardSelection.secondCardIndex].toggle()
-            cardSelection.clear()
+            canSelect = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.cards[self.cardSelection.firstCardIndex].toggle()
+                self.cards[self.cardSelection.secondCardIndex].toggle()
+                self.cardSelection.clear()
+                self.canSelect = true
+            }
         }
     }
 
@@ -66,9 +74,39 @@ class GameViewModel: ObservableObject {
         score += MATCH_SCORE_POINTS
     }
 
+    private func initCards() {
+        switch gameType {
+        case .Emoji:
+            for emoji in EMOJIS {
+                cards.append(CardModel(content: emoji))
+            }
+        case .Latters:
+            for latter in LATTERS {
+                cards.append(CardModel(content: latter))
+            }
+        case .Numbers:
+            for number in NUMBERS {
+                cards.append(CardModel(content: number))
+            }
+        }
+    }
+
     func shuffle() {
-        withAnimation(.easeOut(duration: 20)) {
+        withAnimation(.default) {
             cards.shuffle()
+        }
+    }
+
+    func revealCardsFor(deadline: DispatchTime) {
+        canSelect = false
+        for cardIndex in cards.indices {
+            cards[cardIndex].toggle()
+        }
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            for cardIndex in self.cards.indices {
+                self.cards[cardIndex].toggle()
+            }
+            self.canSelect = true
         }
     }
 }

@@ -17,6 +17,9 @@ struct CardModel: Identifiable, Hashable {
     }
 
     mutating func matched() {
-        isMatched.toggle()
+        isMatched = true
+    }
+    mutating func unmatched() {
+        isMatched = false
     }
 }

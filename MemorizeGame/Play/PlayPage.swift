@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @ObservedObject var vm: GameViewModel
+struct PlayPage: View {
+    @StateObject var vm: GameViewModel
+
     var body: some View {
         VStack {
-            Text("Memorize🎈").font(.largeTitle)
             cards
             Spacer()
             footer
@@ -20,7 +20,7 @@ struct ContentView: View {
 
     var cards: some View {
         LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem()], spacing: 0) {
-            ForEach(vm.cards, id: \.self) { card in
+            ForEach(vm.cards, id: \.id) { card in
                 CardView(card: card) {
                     vm.select(card: card)
                 }.animation(.easeInOut(duration: 0.2), value: vm.cards)
@@ -78,8 +78,9 @@ struct CardView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+
+ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(vm: GameViewModel())
+        PlayPage(vm: GameViewModel(_gameType:.Numbers))
     }
-}
+ }
