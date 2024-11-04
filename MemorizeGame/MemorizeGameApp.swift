@@ -9,11 +9,10 @@ import SwiftUI
 
 @main
 struct MemorizeGameApp: App {
-    @ObservedObject var appViewModel = AppViewModel()
+    @StateObject var appViewModel = AppViewModel()
 
     var body: some Scene {
         WindowGroup {
-            NavigationView {
                 ZStack {
                     switch appViewModel.distination {
                     case .Landing:
@@ -21,11 +20,10 @@ struct MemorizeGameApp: App {
                             .transition(.scale)
                     case .Play:
                         PlayPage(vm: GameViewModel(_gameType: appViewModel.gameType)).environmentObject(appViewModel)
-                            .transition(.scale) // Apply scale transition
+                            .transition(.scale)
                     }
                 }
-                .animation(.easeInOut(duration: 0.5), value: appViewModel.distination) // Animate transition
-            }
+                .animation(.easeInOut(duration: 0.5), value: appViewModel.distination)
         }
     }
 }
