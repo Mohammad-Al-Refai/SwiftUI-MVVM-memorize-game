@@ -88,6 +88,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		117C8AC52CD8C9FF00593C95 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				117C88472CD797010089A123 /* Landing */,
+				117C88462CD791690089A123 /* Play */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
 		119EE9EA2CD6473200B6F5B0 = {
 			isa = PBXGroup;
 			children = (
@@ -107,11 +116,10 @@
 		119EE9F52CD6473200B6F5B0 /* MemorizeGame */ = {
 			isa = PBXGroup;
 			children = (
+				117C8AC52CD8C9FF00593C95 /* Pages */,
 				117C88502CD7AB640089A123 /* Components */,
 				117C884F2CD7A5CC0089A123 /* Utils */,
 				117C884A2CD79B950089A123 /* Models */,
-				117C88472CD797010089A123 /* Landing */,
-				117C88462CD791690089A123 /* Play */,
 				119EE9F62CD6473200B6F5B0 /* MemorizeGameApp.swift */,
 				119EE9FA2CD6473400B6F5B0 /* Assets.xcassets */,
 				119EE9FC2CD6473400B6F5B0 /* Preview Content */,

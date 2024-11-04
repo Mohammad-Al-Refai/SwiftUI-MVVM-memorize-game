@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-
 final class GameViewModel: ObservableObject {
     var gameType: GameType
     @Published var score = 0
@@ -28,7 +26,15 @@ final class GameViewModel: ObservableObject {
         initCards()
         score = 0
         shuffle()
-        revealCardsFor(deadline: .now() + 3)
+        revealCardsFor(deadline: .now() + REVEAL_CARDS_DURATION_SEC)
+    }
+
+    func newGame() {
+        cards.removeAll()
+        cardSelection.clear()
+        initCards()
+        shuffle()
+        revealCardsFor(deadline: .now() + REVEAL_CARDS_DURATION_SEC)
     }
 
     private func checkCardsMatch() -> Bool {
@@ -59,15 +65,30 @@ final class GameViewModel: ObservableObject {
             cards[cardSelection.secondCardIndex].matched()
             cardSelection.clear()
             increaseScore()
-        } else {
-            canSelect = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.cards[self.cardSelection.firstCardIndex].toggle()
-                self.cards[self.cardSelection.secondCardIndex].toggle()
-                self.cardSelection.clear()
-                self.canSelect = true
+            if checkAreAllDone() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.newGame()
+                }
+            }
+            return
+        }
+        canSelect = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.cards[self.cardSelection.firstCardIndex].toggle()
+            self.cards[self.cardSelection.secondCardIndex].toggle()
+            self.cardSelection.clear()
+            self.canSelect = true
+        }
+    }
+
+    private func checkAreAllDone() -> Bool {
+        var allMatched = true
+        for card in cards {
+            if !card.isMatched {
+                allMatched = false
             }
         }
+        return allMatched
     }
 
     private func increaseScore() {
@@ -88,6 +109,17 @@ final class GameViewModel: ObservableObject {
             for number in NUMBERS {
                 cards.append(CardModel(content: number))
             }
+        }
+    }
+
+    func gameTitle() -> String {
+        switch gameType {
+        case .Emoji:
+            return "Emoji"
+        case .Characters:
+            return "Characters"
+        case .Numbers:
+            return "Numbers"
         }
     }
 
@@ -112,8 +144,14 @@ final class GameViewModel: ObservableObject {
 }
 
 struct CardSelection {
-    var firstCardIndex: Int = -1
-    var secondCardIndex: Int = -1
+    private let empty = -1
+    var firstCardIndex: Int
+    var secondCardIndex: Int
+
+    init() {
+        firstCardIndex = empty
+        secondCardIndex = empty
+    }
 
     mutating func selectAsFirst(index: Int) {
         firstCardIndex = index
@@ -124,15 +162,15 @@ struct CardSelection {
     }
 
     mutating func clear() {
-        firstCardIndex = -1
-        secondCardIndex = -1
+        firstCardIndex = empty
+        secondCardIndex = empty
     }
 
     func isFirstCardIndexBlank() -> Bool {
-        return firstCardIndex == -1
+        return firstCardIndex == empty
     }
 
     func isSecondCardIndexBlank() -> Bool {
-        return secondCardIndex == -1
+        return secondCardIndex == empty
     }
 }

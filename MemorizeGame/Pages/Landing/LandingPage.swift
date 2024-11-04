@@ -14,7 +14,7 @@ struct LandingPage: View {
             Spacer()
             Text("Memorize🎈").font(.largeTitle)
             Spacer()
-            LazyVGrid(columns: [GridItem()], spacing: 20) {
+            VStack {
                 AnimatedButton(text: "Emojies") {
                     appViewModel.navigateToPlay(_gameType: .Emoji)
                 }
@@ -26,7 +26,7 @@ struct LandingPage: View {
                 AnimatedButton(text: "Numbers") {
                     appViewModel.navigateToPlay(_gameType: .Numbers)
                 }
-            }.padding()
+            }.padding().aspectRatio(contentMode: .fit)
             Spacer()
         }
     }

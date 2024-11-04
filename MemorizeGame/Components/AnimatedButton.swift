@@ -18,12 +18,12 @@ struct AnimatedButton: View {
     
             Text(text)
                 .foregroundColor(.white)
-                .font(.largeTitle)
+                .font(.title2)
         }
         .onTapGesture {
             onClick()
         }
-        .aspectRatio(contentMode: .fit)
+        .aspectRatio(contentMode: .fill)
     }
 }
 

@@ -9,15 +9,21 @@ import SwiftUI
 
 struct PlayPage: View {
     @StateObject var vm: GameViewModel
-
+    @EnvironmentObject var appViewModel: AppViewModel
     var body: some View {
         VStack {
+            header
             cards
             Spacer()
             footer
         }.padding()
     }
-
+    var header: some View{
+        VStack{
+            Text("Memorize").font(.title2)
+            Text(vm.gameTitle()).foregroundColor(.orange)
+        }
+    }
     var cards: some View {
         LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem()], spacing: 0) {
             ForEach(vm.cards, id: \.id) { card in
@@ -31,8 +37,8 @@ struct PlayPage: View {
     @State var scoreScale: CGFloat = 1.0
     var footer: some View {
         HStack {
-            Button("New Game") {
-                vm.initGame()
+            Button("Home") {
+                appViewModel.navigateToLanding()
             }
             Spacer()
             Text("Score: \(vm.score)")
