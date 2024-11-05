@@ -26,7 +26,7 @@ final class GameViewModel: ObservableObject {
         initCards()
         score = 0
         shuffle()
-        revealCardsFor(deadline: .now() + REVEAL_CARDS_DURATION_SEC)
+        revealCardsFor(sec: REVEAL_CARDS_DURATION_SEC)
     }
 
     func newGame() {
@@ -34,7 +34,7 @@ final class GameViewModel: ObservableObject {
         cardSelection.clear()
         initCards()
         shuffle()
-        revealCardsFor(deadline: .now() + REVEAL_CARDS_DURATION_SEC)
+        revealCardsFor(sec: REVEAL_CARDS_DURATION_SEC)
     }
 
     private func checkCardsMatch() -> Bool {
@@ -47,33 +47,33 @@ final class GameViewModel: ObservableObject {
         if !canSelect {
             return
         }
-        let cardIndex = cards.firstIndex(of: card)
-        if cardIndex == nil {
+        if let cardIndex = cards.firstIndex(of: card) {
+            if cards[cardIndex].isFaceUp {
+                return
+            }
+            cards[cardIndex].toggle()
+            if cardSelection.isFirstCardIndexBlank() {
+                cardSelection.selectAsFirst(index: cardIndex)
+                return
+            }
+            cardSelection.selectAsSecond(index: cardIndex)
+        } else {
             return
         }
-        if cards[cardIndex!].isFaceUp {
-            return
-        }
-        cards[cardIndex!].toggle()
-        if cardSelection.isFirstCardIndexBlank() {
-            cardSelection.selectAsFirst(index: cardIndex!)
-            return
-        }
-        cardSelection.selectAsSecond(index: cardIndex!)
         if checkCardsMatch() {
             cards[cardSelection.firstCardIndex].matched()
             cards[cardSelection.secondCardIndex].matched()
             cardSelection.clear()
             increaseScore()
             if checkAreAllDone() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                waitFor(sec: 1) {
                     self.newGame()
                 }
             }
             return
         }
         canSelect = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        waitFor(sec: 0.5) {
             self.cards[self.cardSelection.firstCardIndex].toggle()
             self.cards[self.cardSelection.secondCardIndex].toggle()
             self.cardSelection.clear()
@@ -129,12 +129,12 @@ final class GameViewModel: ObservableObject {
         }
     }
 
-    func revealCardsFor(deadline: DispatchTime) {
+    func revealCardsFor(sec: Double) {
         canSelect = false
         for cardIndex in cards.indices {
             cards[cardIndex].toggle()
         }
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
+        waitFor(sec: sec) {
             for cardIndex in self.cards.indices {
                 self.cards[cardIndex].toggle()
             }

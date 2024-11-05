@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1106AD672CDA277A0044A0C6 /* WaitFor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1106AD662CDA277A0044A0C6 /* WaitFor.swift */; };
 		117C88492CD797180089A123 /* LandingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C88482CD797180089A123 /* LandingPage.swift */; };
 		117C884C2CD79BC40089A123 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C884B2CD79BC40089A123 /* AppViewModel.swift */; };
 		117C884E2CD7A5C60089A123 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C884D2CD7A5C60089A123 /* Constants.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1106AD662CDA277A0044A0C6 /* WaitFor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitFor.swift; sourceTree = "<group>"; };
 		117C88482CD797180089A123 /* LandingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPage.swift; sourceTree = "<group>"; };
 		117C884B2CD79BC40089A123 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		117C884D2CD7A5C60089A123 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				117C884D2CD7A5C60089A123 /* Constants.swift */,
+				1106AD662CDA277A0044A0C6 /* WaitFor.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			files = (
 				119EEA052CD6477600B6F5B0 /* GameViewModel.swift in Sources */,
 				117C88492CD797180089A123 /* LandingPage.swift in Sources */,
+				1106AD672CDA277A0044A0C6 /* WaitFor.swift in Sources */,
 				117C88542CD7E0DE0089A123 /* GameType.swift in Sources */,
 				117C884C2CD79BC40089A123 /* AppViewModel.swift in Sources */,
 				119EEA072CD6479300B6F5B0 /* CardModel.swift in Sources */,
